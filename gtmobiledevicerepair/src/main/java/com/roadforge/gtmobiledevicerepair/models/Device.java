@@ -12,8 +12,8 @@ import java.util.ArrayList;
 public class Device {
 
     String deviceId;
-    String deviceType;
-    String operatingSystem;
+    DeviceType deviceType;
+    OSType operatingSystem;
     String customerId;
     ArrayList<String> repairIds;
 

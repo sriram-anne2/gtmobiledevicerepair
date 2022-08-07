@@ -10,7 +10,7 @@ import lombok.Setter;
 public class Repair {
 
     String repairId;
-    String deviceId;
+    Device device;
     String customerId;
     String repairStartDate;
     String repairEndDate;

@@ -12,6 +12,9 @@ import java.util.ArrayList;
 public class Customer {
 
     String customerId;
-    ArrayList<String> deviceIds;
-    ArrayList<String> repairIds;
+    String customerName;
+    String customerEmail;
+    String customerPhone;
+    ArrayList<Device> devices;
+    ArrayList<Repair> repairs;
 }
