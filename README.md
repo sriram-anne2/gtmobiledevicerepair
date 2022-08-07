@@ -13,3 +13,4 @@ MVP Business Requirements and Flows
 5. Any available technician is able to pick the top customer from the waitlist and start repair process/help customer which then updates the waitlist and start the repair session.
 6. Orders for any service will be done while customer is being helped by technician - orders should include price, labor cost, replacement parts(if any), ordering replacement parts (if any), estimated arrival date and estimated repair date of replacement part (if any), etc.
 7. Payment portal embedded in repair session.
+8. End user session and save updates/changes to customer profile.
