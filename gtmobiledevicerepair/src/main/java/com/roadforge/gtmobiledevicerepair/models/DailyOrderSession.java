@@ -16,6 +16,7 @@ public class DailyOrderSession {
     String dailySessionOpenDateTime;
     String dailySessionCloseDateTime;
     String dailySessionClosedBy;
+    boolean isActive;
 
     ArrayList<WaitlistCustomer> waitlistCustomers;
     ArrayList<Repair> repairs;

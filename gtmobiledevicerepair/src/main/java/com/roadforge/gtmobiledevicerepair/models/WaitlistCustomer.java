@@ -7,9 +7,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class WaitlistCustomer {
+public class WaitlistCustomer extends Customer{
 
-    String customerId;
     String customerArrivalDateTime;
     String customerServicedAtDateTime;
+    String technicianId;
 }

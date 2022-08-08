@@ -4,14 +4,15 @@ import com.google.api.Documentation;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
-import com.roadforge.gtmobiledevicerepair.models.Customer;
-import com.roadforge.gtmobiledevicerepair.models.Device;
-import com.roadforge.gtmobiledevicerepair.models.Repair;
+import com.roadforge.gtmobiledevicerepair.models.*;
 import org.springframework.stereotype.Service;
 
 import javax.print.Doc;
+import java.lang.reflect.Array;
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
@@ -73,6 +74,9 @@ public class FirebaseOperations {
     public Repair createNewRepair(Repair repair) throws ExecutionException, InterruptedException {
         Firestore firestore = FirestoreClient.getFirestore();
 
+        DailyOrderSession dailyOrderSession = getActiveSession();
+        repair.setSessionId(dailyOrderSession.getDailySessionId());
+
         if (repair.getRepairId() == null) {
             repair.setRepairId(UUID.randomUUID().toString());
         }
@@ -80,6 +84,12 @@ public class FirebaseOperations {
         ApiFuture<WriteResult> savedResult = firestore.collection("repair")
                 .document(repair.getRepairId())
                 .set(repair);
+
+        savedResult.get().getUpdateTime().toString();
+
+        ArrayList<Repair> existingRepairs = dailyOrderSession.getRepairs();
+        existingRepairs.add(repair);
+        updateActiveSession(dailyOrderSession);
 
         return repair;
     }
@@ -155,6 +165,79 @@ public class FirebaseOperations {
         return devices;
     }
 
+
+    // SESSION OPERATIONS
+
+    public DailyOrderSession getActiveSession() throws ExecutionException, InterruptedException {
+
+        Firestore firestore = FirestoreClient.getFirestore();
+
+        ApiFuture<QuerySnapshot> retrieveSession = firestore.collection("dailyOrderSession").
+                whereEqualTo("isActive", true).get();
+
+        List<QueryDocumentSnapshot> results = retrieveSession.get().getDocuments();
+
+        return results.get(0).toObject(DailyOrderSession.class);
+    }
+
+    public String updateActiveSession(DailyOrderSession dailyOrderSession) throws ExecutionException, InterruptedException {
+
+        Firestore firestore = FirestoreClient.getFirestore();
+
+        ApiFuture<WriteResult> savedResult = firestore.collection("dailyOrderSession")
+                .document(dailyOrderSession.getDailySessionId())
+                .set(dailyOrderSession);
+
+        return savedResult.get().getUpdateTime().toString();
+    }
+
+    public ArrayList<String> createNewSession(DailyOrderSession dailyOrderSession) throws ExecutionException, InterruptedException {
+        Firestore firestore = FirestoreClient.getFirestore();
+
+        dailyOrderSession.setDailySessionId(UUID.randomUUID().toString());
+        ApiFuture<WriteResult> savedResult = firestore.collection("dailyOrderSession")
+                .document(dailyOrderSession.getDailySessionId())
+                .set(dailyOrderSession);
+
+        ArrayList<String> output = new ArrayList<>();
+        output.add(dailyOrderSession.getDailySessionId());
+        output.add(savedResult.get().getUpdateTime().toString());
+
+        return output;
+    }
+
+    public ArrayList<String> getCustomerFromWaitlist(String techId) throws ExecutionException, InterruptedException {
+
+        Firestore firestore = FirestoreClient.getFirestore();
+
+        DailyOrderSession dailyOrderSession = getActiveSession();
+        ArrayList<WaitlistCustomer> existingWaitlist = dailyOrderSession.getWaitlistCustomers();
+
+        WaitlistCustomer currentCustomer = existingWaitlist.remove(0);
+        dailyOrderSession.setWaitlistCustomers(existingWaitlist);
+
+
+        ArrayList<String> output = new ArrayList<>();
+        output.add(currentCustomer.getCustomerId());
+        output.add(updateActiveSession(dailyOrderSession));
+
+        return output;
+
+    }
+
+    public DailyOrderSession addCustomerToWaitlist(WaitlistCustomer waitlistCustomer) throws ExecutionException, InterruptedException {
+
+        Firestore firestore = FirestoreClient.getFirestore();
+
+        DailyOrderSession dailyOrderSession = getActiveSession();
+        ArrayList<WaitlistCustomer> existingWaitlist = dailyOrderSession.getWaitlistCustomers();
+        existingWaitlist.add(waitlistCustomer);
+
+        dailyOrderSession.setWaitlistCustomers(existingWaitlist);
+
+        updateActiveSession(dailyOrderSession);
+        return dailyOrderSession;
+    }
 
 
 }
