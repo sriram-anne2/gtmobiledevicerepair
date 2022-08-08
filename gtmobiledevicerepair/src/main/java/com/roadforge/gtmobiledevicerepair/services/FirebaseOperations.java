@@ -33,6 +33,8 @@ public class FirebaseOperations {
                 .document(customer.getCustomerId())
                 .set(customer);
 
+        savedResult.get().getUpdateTime().toString();
+
         return customer;
     }
 
@@ -58,13 +60,15 @@ public class FirebaseOperations {
         return customers;
     }
 
-    public Customer updateCustomer(Customer customer) {
+    public Customer updateCustomer(Customer customer) throws ExecutionException, InterruptedException {
 
         Firestore firestore = FirestoreClient.getFirestore();
 
         ApiFuture<WriteResult> savedResult = firestore.collection("customer").
                 document(customer.getCustomerId()).
                 set(customer);
+
+        savedResult.get().getUpdateTime().toString();
 
         return customer;
     }
@@ -146,6 +150,8 @@ public class FirebaseOperations {
                 .document(device.getDeviceId())
                 .set(device);
 
+        savedResult.get().getUpdateTime().toString();
+
         return device;
     }
 
@@ -208,8 +214,6 @@ public class FirebaseOperations {
 
     public ArrayList<String> getCustomerFromWaitlist(String techId) throws ExecutionException, InterruptedException {
 
-        Firestore firestore = FirestoreClient.getFirestore();
-
         DailyOrderSession dailyOrderSession = getActiveSession();
         ArrayList<WaitlistCustomer> existingWaitlist = dailyOrderSession.getWaitlistCustomers();
 
@@ -226,8 +230,6 @@ public class FirebaseOperations {
     }
 
     public DailyOrderSession addCustomerToWaitlist(WaitlistCustomer waitlistCustomer) throws ExecutionException, InterruptedException {
-
-        Firestore firestore = FirestoreClient.getFirestore();
 
         DailyOrderSession dailyOrderSession = getActiveSession();
         ArrayList<WaitlistCustomer> existingWaitlist = dailyOrderSession.getWaitlistCustomers();
