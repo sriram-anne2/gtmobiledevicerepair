@@ -1,10 +1,7 @@
 package com.roadforge.gtmobiledevicerepair.controller;
 
 import com.google.gson.Gson;
-import com.roadforge.gtmobiledevicerepair.models.Device;
-import com.roadforge.gtmobiledevicerepair.models.DeviceType;
-import com.roadforge.gtmobiledevicerepair.models.OSType;
-import com.roadforge.gtmobiledevicerepair.models.Repair;
+import com.roadforge.gtmobiledevicerepair.models.*;
 import com.roadforge.gtmobiledevicerepair.services.FirebaseOperations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -51,13 +48,22 @@ public class DeviceController {
 
     @PostMapping("test")
     public Device testCrud() throws ExecutionException, InterruptedException {
-
         return firebaseOperations.createNewDevice(createTestDevice());
     }
 
 
     @PostMapping("")
-    public String addDevice(@RequestBody Device device) throws ExecutionException, InterruptedException {
+    public String addNewDeviceToCustomer(@RequestBody Device device) throws ExecutionException, InterruptedException {
+
+        ArrayList<Device> existingDevices = firebaseOperations.getDevicesByCustomerId(device.getCustomerId());
+        existingDevices.add(device);
+
+        // always going to be a singleton result
+        ArrayList<Customer> customers = firebaseOperations.getCustomersById(device.getCustomerId());
+
+        Customer customer = customers.get(0);
+        customer.setDevices(existingDevices);
+        firebaseOperations.updateCustomer(customer);
 
         Device device1 = firebaseOperations.createNewDevice(device);
 

@@ -7,17 +7,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Repair {
+public class WaitlistCustomer {
 
-    String repairId;
-    Device device;
     String customerId;
-    String repairStartDate;
-    String repairEndDate;
-    String technicianId;
-    String sessionId;
-
-    float repairCost;
-
-
+    String customerArrivalDateTime;
+    String customerServicedAtDateTime;
 }

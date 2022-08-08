@@ -37,20 +37,25 @@ public class RepairController {
 
 
     @GetMapping("")
-    public ArrayList<Repair> getRepairs(@RequestParam(required = false) String repairId) {
+    public ArrayList<Repair> getRepairs(@RequestParam(required = false) String repairId) throws ExecutionException, InterruptedException {
 
         if (repairId != null) {
-
+            return firebaseOperations.getRepairsById(repairId);
         } else {
-
+            return firebaseOperations.getRepairsById(null);
         }
 
-        return new ArrayList<Repair>();
+    }
+
+    @GetMapping("/customer")
+    public ArrayList<Repair> getRepairsForCustomer(@RequestParam String customerId) throws ExecutionException, InterruptedException {
+
+        return firebaseOperations.getRepairsByCustomerId(customerId);
+
     }
 
     @PostMapping("test")
     public Repair testCrud() throws ExecutionException, InterruptedException {
-
         return firebaseOperations.createNewRepair(createTestRepair());
     }
 

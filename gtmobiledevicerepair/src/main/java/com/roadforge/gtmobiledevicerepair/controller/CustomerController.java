@@ -43,20 +43,17 @@ public class CustomerController {
     }
 
     @GetMapping("")
-    public ArrayList<Customer> getCustomers(@RequestParam(required = false) String customerId) {
+    public ArrayList<Customer> getCustomers(@RequestParam(required = false) String customerId) throws ExecutionException, InterruptedException {
 
         if (customerId != null) {
-
+            return firebaseOperations.getCustomersById(customerId);
         } else {
-
+            return firebaseOperations.getCustomersById(null);
         }
-
-        return new ArrayList<Customer>();
     }
 
     @PostMapping("test")
     public Customer testCrud() throws ExecutionException, InterruptedException {
-
         return firebaseOperations.createNewCustomer(createTestCustomer());
     }
 
