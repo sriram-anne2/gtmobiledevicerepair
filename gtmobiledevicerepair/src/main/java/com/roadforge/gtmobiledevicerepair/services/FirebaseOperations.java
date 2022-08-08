@@ -11,10 +11,7 @@ import javax.print.Doc;
 import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 @Service
@@ -85,15 +82,39 @@ public class FirebaseOperations {
             repair.setRepairId(UUID.randomUUID().toString());
         }
 
+        Device device = repair.getDevice();
+        ArrayList<String> repairIds = ((device.getRepairIds() == null) ? new ArrayList<String >() : device.getRepairIds());
+        repairIds.add(repair.getRepairId());
+        device.setRepairIds(repairIds);
+
+        updateDevice(device);
+
+
         ApiFuture<WriteResult> savedResult = firestore.collection("repair")
                 .document(repair.getRepairId())
                 .set(repair);
 
         savedResult.get().getUpdateTime().toString();
 
-        ArrayList<Repair> existingRepairs = dailyOrderSession.getRepairs();
+        ArrayList<Repair> existingRepairs = ((dailyOrderSession.getRepairs() == null) ? new ArrayList<Repair>() : dailyOrderSession.getRepairs());
         existingRepairs.add(repair);
         updateActiveSession(dailyOrderSession);
+
+
+        Customer customer = getCustomersById(repair.getCustomerId()).get(0);
+        ArrayList<Device> devices = customer.getDevices();
+        for (int i = 0; i < devices.size(); i++) {
+            if (Objects.equals(devices.get(i).getDeviceId(), device.getDeviceId())) {
+                devices.remove(i);
+                devices.add(device);
+            }
+        }
+        customer.setDevices(devices);
+        ArrayList<Repair> repairs = ((customer.getRepairs() == null) ? new ArrayList<Repair>() : customer.getRepairs());
+        repairs.add(repair);
+        customer.setRepairs(repairs);
+
+        updateCustomer(customer);
 
         return repair;
     }
@@ -146,6 +167,14 @@ public class FirebaseOperations {
             device.setDeviceId(UUID.randomUUID().toString());
         }
 
+        updateDevice(device);
+
+        return device;
+    }
+
+    public Device updateDevice(Device device) throws ExecutionException, InterruptedException {
+
+        Firestore firestore = FirestoreClient.getFirestore();
         ApiFuture<WriteResult> savedResult = firestore.collection("device")
                 .document(device.getDeviceId())
                 .set(device);
@@ -179,7 +208,7 @@ public class FirebaseOperations {
         Firestore firestore = FirestoreClient.getFirestore();
 
         ApiFuture<QuerySnapshot> retrieveSession = firestore.collection("dailyOrderSession").
-                whereEqualTo("isActive", true).get();
+                whereEqualTo("active", true).get();
 
         List<QueryDocumentSnapshot> results = retrieveSession.get().getDocuments();
 
@@ -210,6 +239,17 @@ public class FirebaseOperations {
         output.add(savedResult.get().getUpdateTime().toString());
 
         return output;
+    }
+
+    public DailyOrderSession closeOutSession(String technicianId, String closeOutDateTime) throws ExecutionException, InterruptedException {
+        DailyOrderSession session = getActiveSession();
+        session.setDailySessionClosedBy(technicianId);
+        session.setDailySessionCloseDateTime(closeOutDateTime);
+        session.setActive(false);
+
+        updateActiveSession(session);
+
+        return session;
     }
 
     public ArrayList<String> getCustomerFromWaitlist(String techId) throws ExecutionException, InterruptedException {

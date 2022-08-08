@@ -35,15 +35,9 @@ public class DeviceController {
     }
 
     @GetMapping("")
-    public ArrayList<Device> getDevices(@RequestParam(required = false) String deviceId) {
+    public ArrayList<Device> getDevicesForCustomer(@RequestParam String customerId) throws ExecutionException, InterruptedException {
 
-        if (deviceId != null) {
-
-        } else {
-
-        }
-
-        return new ArrayList<Device>();
+        return firebaseOperations.getDevicesByCustomerId(customerId);
     }
 
     @PostMapping("test")
@@ -68,6 +62,12 @@ public class DeviceController {
         Device device1 = firebaseOperations.createNewDevice(device);
 
         return new Gson().toJson(device1);
+
+    }
+
+    //TODO - done in create repair
+    @PostMapping ("repair")
+    public void addRepairToDevice() {
 
     }
 }

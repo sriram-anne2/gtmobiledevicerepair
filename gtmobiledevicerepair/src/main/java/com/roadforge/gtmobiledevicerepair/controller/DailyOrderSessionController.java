@@ -51,5 +51,13 @@ public class DailyOrderSessionController {
     }
 
 
+    @PostMapping("end")
+    public DailyOrderSession closeoutDailySession(@RequestParam String technicianId) throws ExecutionException, InterruptedException {
+
+        return firebaseOperations.closeOutSession(technicianId, dateFormat.format(new Date()));
+
+    }
+
+
 
 }
