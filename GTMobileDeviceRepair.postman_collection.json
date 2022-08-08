@@ -1,0 +1,300 @@
+{
+	"info": {
+		"_postman_id": "334434be-4732-45df-8b9c-7b5ff02c3902",
+		"name": "GTMobileDeviceRepair",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "DailyOrderSessions",
+			"item": [
+				{
+					"name": "CRUD Test",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/session/initialize?technicianId=tech1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"session",
+								"initialize"
+							],
+							"query": [
+								{
+									"key": "technicianId",
+									"value": "tech1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Closeout Session",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/session/end?technicianId=tech2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"session",
+								"end"
+							],
+							"query": [
+								{
+									"key": "technicianId",
+									"value": "tech2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Customer",
+			"item": [
+				{
+					"name": "CRUD Test",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/customer/test",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customer",
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register New Customer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"customerId\": \"postmanTestCustomer1\",\n    \"customerName\": \"John Doe\",\n    \"customerEmail\": \"customer@gmail.com\",\n    \"customerPhone\": \"8974563210\",\n    \"devices\": [\n        {\n            \"deviceId\": \"da13d332-e0e9-4879-ad03-34dd168dd815\",\n            \"deviceType\": \"SMARTPHONE\",\n            \"operatingSystem\": \"iOS\",\n            \"customerId\": \"postmanTestCustomer1\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/customer/",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customer",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Customer(s)",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/customer?customerId=randomCustId1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customer"
+							],
+							"query": [
+								{
+									"key": "customerId",
+									"value": "randomCustId1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Device",
+			"item": [
+				{
+					"name": "CRUD Test",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/device/test",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"device",
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Device To Customer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"deviceId\": \"postmanTestDevice1\",\n    \"deviceType\": \"SMARTPHONE\",\n    \"operatingSystem\": \"iOS\",\n    \"customerId\": \"postmanTestCustomer1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/device/",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"device",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Repair",
+			"item": [
+				{
+					"name": "CRUD Test",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/repair/test",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"repair",
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create new repair",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"repairId\": \"postmanTestRepair1\",\n    \"device\": {\n        \"deviceId\": \"postmanTestDevice1\",\n        \"deviceType\": \"SMARTPHONE\",\n        \"operatingSystem\": \"iOS\",\n        \"customerId\": \"postmanTestCustomer1\"\n    },\n    \"customerId\": \"postmanTestCustomer1\",\n    \"repairStartDate\": \"2022-08-01\",\n    \"repairEndDate\": \"\",\n    \"technicianId\": \"tech1\",\n    \"sessionId\": \"3fb68484-36df-4110-af2c-81350b99dab1\",\n    \"repairCost\": 39.99\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/repair",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"repair"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
