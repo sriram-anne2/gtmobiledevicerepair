@@ -6,9 +6,9 @@ import com.roadforge.gtmobiledevicerepair.services.FirebaseOperations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.UUID;
+import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
 @RestController
@@ -18,6 +18,8 @@ public class RepairController {
 
     @Autowired
     FirebaseOperations firebaseOperations;
+
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public Repair createTestRepair() {
 
@@ -67,5 +69,11 @@ public class RepairController {
 
         return new Gson().toJson(repair1);
 
+    }
+
+    @PostMapping("end")
+    public Repair finishRepair(@RequestParam String repairId, @RequestParam (required = false) String technicianId) throws ExecutionException, InterruptedException {
+
+        return firebaseOperations.finishRepair(repairId, dateFormat.format(new Date()), technicianId);
     }
 }

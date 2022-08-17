@@ -157,6 +157,33 @@ public class FirebaseOperations {
         return repairs;
     }
 
+    public Repair finishRepair(String repairId, String endDateTime, String technicianId) throws ExecutionException, InterruptedException {
+
+        Repair repair = getRepairsById(repairId).get(0);
+        repair.setRepairEndDate(endDateTime);
+
+        if (technicianId != null) {
+            repair.setTechnicianId(technicianId);
+        }
+
+        updateRepair(repair);
+
+        return repair;
+    }
+
+    public Repair updateRepair(Repair repair) throws ExecutionException, InterruptedException {
+
+        Firestore firestore = FirestoreClient.getFirestore();
+        ApiFuture<WriteResult> savedResult = firestore.collection("repair")
+                .document(repair.getRepairId())
+                .set(repair);
+
+        savedResult.get().getUpdateTime().toString();
+
+        return repair;
+    }
+
+
 
     // DEVICE OPERATIONS
 
