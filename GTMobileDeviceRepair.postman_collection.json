@@ -23,7 +23,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/session/initialize?technicianId=tech1",
+							"raw": "localhost:8080/session/initialize?technicianId=tech2",
 							"host": [
 								"localhost"
 							],
@@ -35,8 +35,36 @@
 							"query": [
 								{
 									"key": "technicianId",
-									"value": "tech1"
+									"value": "tech2"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Customer To Waitlist",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/session/addToWaitlist",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"session",
+								"addToWaitlist"
 							]
 						}
 					},
@@ -116,7 +144,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"customerId\": \"postmanTestCustomer1\",\n    \"customerName\": \"John Doe\",\n    \"customerEmail\": \"customer@gmail.com\",\n    \"customerPhone\": \"8974563210\",\n    \"devices\": [\n        {\n            \"deviceId\": \"da13d332-e0e9-4879-ad03-34dd168dd815\",\n            \"deviceType\": \"SMARTPHONE\",\n            \"operatingSystem\": \"iOS\",\n            \"customerId\": \"postmanTestCustomer1\"\n        }\n    ]\n}",
+							"raw": "{\n    \"customerId\": \"postmanTestCustomer2\",\n    \"customerName\": \"Jane Doe\",\n    \"customerEmail\": \"customer2@gmail.com\",\n    \"customerPhone\": \"8974563210\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -213,7 +241,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"deviceId\": \"postmanTestDevice1\",\n    \"deviceType\": \"SMARTPHONE\",\n    \"operatingSystem\": \"iOS\",\n    \"customerId\": \"postmanTestCustomer1\"\n}",
+							"raw": "{\n    \"deviceId\": \"postmanTestDevice2\",\n    \"deviceType\": \"SMARTPHONE\",\n    \"operatingSystem\": \"ANDROID\",\n    \"customerId\": \"postmanTestCustomer2\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -274,7 +302,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"repairId\": \"postmanTestRepair1\",\n    \"device\": {\n        \"deviceId\": \"postmanTestDevice1\",\n        \"deviceType\": \"SMARTPHONE\",\n        \"operatingSystem\": \"iOS\",\n        \"customerId\": \"postmanTestCustomer1\"\n    },\n    \"customerId\": \"postmanTestCustomer1\",\n    \"repairStartDate\": \"2022-08-01\",\n    \"repairEndDate\": \"\",\n    \"technicianId\": \"tech1\",\n    \"sessionId\": \"3fb68484-36df-4110-af2c-81350b99dab1\",\n    \"repairCost\": 39.99\n}",
+							"raw": "{\n    \"repairId\": \"postmanTestRepair5\",\n    \"device\": {\n        \"deviceId\": \"postmanTestDevice2\",\n        \"deviceType\": \"SMARTPHONE\",\n        \"operatingSystem\": \"ANDROID\",\n        \"customerId\": \"postmanTestCustomer2\"\n    },\n    \"customerId\": \"postmanTestCustomer2\",\n    \"repairStartDate\": \"2022-08-17\",\n    \"repairEndDate\": \"\",\n    \"technicianId\": \"tech3\",\n    \"sessionId\": \"179c23d5-8d31-47f5-8cc4-1abe95a8d6ff\",\n    \"repairCost\": 9.99\n}",
 							"options": {
 								"raw": {
 									"language": "json"
