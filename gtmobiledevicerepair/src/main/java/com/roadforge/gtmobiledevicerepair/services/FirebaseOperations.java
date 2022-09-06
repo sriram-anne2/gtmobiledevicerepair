@@ -98,6 +98,7 @@ public class FirebaseOperations {
 
         ArrayList<Repair> existingRepairs = ((dailyOrderSession.getRepairs() == null) ? new ArrayList<Repair>() : dailyOrderSession.getRepairs());
         existingRepairs.add(repair);
+        dailyOrderSession.setRepairs(existingRepairs);
         updateActiveSession(dailyOrderSession);
 
 
